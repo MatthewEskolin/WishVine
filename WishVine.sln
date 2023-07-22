@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishVine.Client", "Client\W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishVine.Shared", "Shared\WishVine.Shared.csproj", "{28F9D7FE-B85F-4490-A16E-A3BE7392527E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{960A80D4-CD01-46C3-B7CD-9556C0C45D09}"
+	ProjectSection(SolutionItems) = preProject
+		_DevLog.txt = _DevLog.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
