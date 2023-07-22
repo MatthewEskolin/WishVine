@@ -1,8 +1,12 @@
 ﻿@inherits LayoutComponentBase
-
+<MudThemeProvider />
 <div class="page">
+    <MudAppBar Color="Color.Success">
+        <MudText Typo="Typo.h4" class="px-4">MudBlazor Wasm Sample</MudText>
+    </MudAppBar>
+
     <div class="sidebar">
-        <NavMenu />
+        <NavMenu/>
     </div>
 
     <main>

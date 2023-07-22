@@ -31,4 +31,40 @@ namespace WishVine.Server.Controllers
             .ToArray();
         }
     }
+
+    [ApiController]
+    [Route("[controller]")]
+    public class WishListController : ControllerBase
+    {
+        private readonly ILogger<WishListController> _logger;
+
+        //WishList Storage (get from db later)
+        public List<WishList> WishLists = new()
+        {
+            new WishList() { Name = "Matt's Wish List" },
+            new WishList() { Name = "Jerry's Wish List" },
+            new WishList() { Name = "Amanda's Wish List" },
+        };
+
+        public WishListController(ILogger<WishListController> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpGet]
+        public IEnumerable<WishList> Get()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WishList()
+                {
+                    Date = DateTime.Now.AddDays(index),
+                    TemperatureC = Random.Shared.Next(-20, 55),
+                    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                })
+                .ToArray();
+        }
+
+
+    }
+
+
 }

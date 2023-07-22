@@ -1,0 +1,19 @@
+﻿@page "/wishlist"
+@using WishVine.Shared
+@inject HttpClient Http
+
+
+<h3>WishLists</h3>
+
+@code {
+
+    //query wish lists for API
+    private WishList[]? wishlists;
+
+    protected override async Task OnInitializedAsync()
+    {
+        wishlists = await Http.GetFromJsonAsync<WishList[]>("WeatherForecast");
+    }
+
+
+}
