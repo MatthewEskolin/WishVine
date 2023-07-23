@@ -19,8 +19,8 @@ namespace WishVine.Shared
     /// </summary>
     public class WishList
     {
-        public string Name { get; set; }
-        public string UserDisplayName { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string UserDisplayName { get; set; } = string.Empty;
 
     }
 

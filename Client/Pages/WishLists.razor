@@ -1,18 +1,115 @@
 ﻿@page "/wishlist"
 @using WishVine.Shared
+@using MudBlazor
+@using MudBlazor.Extensions
+
+
 @inject HttpClient Http
 
 
 <h3>WishLists</h3>
 
+@if (_wishlists == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @:Testing Row Selection Rendering -> 
+    if(_selectedRow != null){ 
+        @: you have selected @_selectedRow.Name
+    }
+
+    <MudTable Items="@_wishlists" SelectOnRowClick="true" SelectedItemChanged="EventCallback.Factory.Create<WishList>(this,HandleTrailSelected)">
+        <HeaderContent>
+
+            <MudTh>List Name</MudTh>
+            <MudTh>User Name</MudTh>
+            <MudTh>Details</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTr>
+                <MudTd>@context.Name</MudTd>
+                <MudTd>list property 2</MudTd>
+                <MudTd>list property 3</MudTd>
+            </MudTr>
+        </RowTemplate>
+    </MudTable>
+
+    <MudTable T="WishList" @ref="mudTable" Items="_wishlists" RowStyleFunc="@SelectedRowStyleFunc"
+          @bind-SelectedItem="_selectedRow2">
+        <HeaderContent>
+            <MudTh>List Name</MudTh>
+            <MudTh>User Name</MudTh>
+            <MudTh>Details</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTr>
+                <MudTd>@context.Name</MudTd>
+                <MudTd>list property 2</MudTd>
+                <MudTd>list property 3</MudTd>
+            </MudTr>
+        </RowTemplate>
+    </MudTable>
+
+
+
+}
+
 @code {
 
+
+    //EXAMPLE 2
+    private MudTable<WishList> mudTable;
+    private WishList? _selectedRow2;
+    private string SelectedRowStyleFunc(WishList wl, int rowNumber)
+    {
+        if (mudTable.SelectedItem != null && mudTable.SelectedItem.Equals(wl))
+        {
+            return "background-color: lightgrey";
+        }
+        return string.Empty;
+    }
+
+
+
     //query wish lists for API
-    private WishList[]? wishlists;
+    private WishList[]? _wishlists;
+
+    private WishList? _selectedRow;
+
+    public EventCallback<WishList> SelectedRow { get; set; }
+
+    private WeatherForecast[]? forecasts;
 
     protected override async Task OnInitializedAsync()
     {
-        wishlists = await Http.GetFromJsonAsync<WishList[]>("WeatherForecast");
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WishList2");
+
+        _wishlists ??= await Http.GetFromJsonAsync<WishList[]>("WishList");
+    }
+
+    // Method to handle the event
+    private async Task HandleSelectedRow(WishList selectedRowData)
+    {
+    // Do something with the selected row data
+    // For example, you can pass it to another method, update state, etc.
+    // For simplicity, let's just print the data for demonstration purposes
+        Console.WriteLine("Selected Row Data:");
+        Console.WriteLine(selectedRowData);
+
+    // You can also propagate the event to the parent component, if needed.
+    // In this case, the parent component will need to provide an EventCallback
+    // parameter when using this component and handle the event on its side.
+        await SelectedRow.InvokeAsync(selectedRowData);
+    }
+
+    private void HandleTrailSelected(WishList list) => _selectedRow = list;
+    private void OnRowSelected(WishList list)
+    {
+        //_selectedRow = row;
+
+        // Implement any additional logic you want to perform when a row is selected.
     }
 
 

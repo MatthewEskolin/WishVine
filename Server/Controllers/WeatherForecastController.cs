@@ -39,11 +39,17 @@ namespace WishVine.Server.Controllers
         private readonly ILogger<WishListController> _logger;
 
         //WishList Storage (get from db later)
-        public List<WishList> WishLists = new()
+        private readonly List<WishList> _wishLists = new()
         {
             new WishList() { Name = "Matt's Wish List" },
             new WishList() { Name = "Jerry's Wish List" },
             new WishList() { Name = "Amanda's Wish List" },
+        };
+
+
+        private static readonly string[] Summaries = new[]
+        {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
         public WishListController(ILogger<WishListController> logger)
@@ -54,7 +60,34 @@ namespace WishVine.Server.Controllers
         [HttpGet]
         public IEnumerable<WishList> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WishList()
+            return _wishLists.ToArray();
+        }
+
+
+    }
+
+
+
+    [ApiController]
+    [Route("[controller]")]
+    public class WishList2Controller : ControllerBase
+    {
+        private static readonly string[] Summaries = new[]
+        {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        };
+
+        private readonly ILogger<WishList2Controller> _logger;
+
+        public WishList2Controller(ILogger<WishList2Controller> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpGet]
+        public IEnumerable<WeatherForecast> Get()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {
                     Date = DateTime.Now.AddDays(index),
                     TemperatureC = Random.Shared.Next(-20, 55),
@@ -62,9 +95,8 @@ namespace WishVine.Server.Controllers
                 })
                 .ToArray();
         }
-
-
     }
+
 
 
 }
