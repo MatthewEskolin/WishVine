@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishVine.Server", "Server\WishVine.Server.csproj", "{3011C96A-CD6B-4656-AFEC-17C1F5F74CFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WishVine.Server", "Server\WishVine.Server.csproj", "{3011C96A-CD6B-4656-AFEC-17C1F5F74CFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishVine.Client", "Client\WishVine.Client.csproj", "{A05DA4DF-EBB2-4184-A19D-E715C9AE7C05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WishVine.Client", "Client\WishVine.Client.csproj", "{A05DA4DF-EBB2-4184-A19D-E715C9AE7C05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WishVine.Shared", "Shared\WishVine.Shared.csproj", "{28F9D7FE-B85F-4490-A16E-A3BE7392527E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WishVine.Shared", "Shared\WishVine.Shared.csproj", "{28F9D7FE-B85F-4490-A16E-A3BE7392527E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{960A80D4-CD01-46C3-B7CD-9556C0C45D09}"
 	ProjectSection(SolutionItems) = preProject

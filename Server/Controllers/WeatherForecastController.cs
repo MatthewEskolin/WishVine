@@ -32,41 +32,6 @@ namespace WishVine.Server.Controllers
         }
     }
 
-    [ApiController]
-    [Route("[controller]")]
-    public class WishListController : ControllerBase
-    {
-        private readonly ILogger<WishListController> _logger;
-
-        //WishList Storage (get from db later)
-        private readonly List<WishList> _wishLists = new()
-        {
-            new WishList() { Name = "Matt's Wish List" },
-            new WishList() { Name = "Jerry's Wish List" },
-            new WishList() { Name = "Amanda's Wish List" },
-        };
-
-
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        public WishListController(ILogger<WishListController> logger)
-        {
-            _logger = logger;
-        }
-
-        [HttpGet]
-        public IEnumerable<WishList> Get()
-        {
-            return _wishLists.ToArray();
-        }
-
-
-    }
-
-
 
     [ApiController]
     [Route("[controller]")]

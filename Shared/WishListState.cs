@@ -8,7 +8,7 @@ namespace WishVine.Shared
 {
     public class WishListState    {
 
-        public List<WishList> WishLists = new();
+        public List<WishListDTO> WishLists = new();
         public WishListState() { }
 
 
@@ -17,13 +17,22 @@ namespace WishVine.Shared
     /// <summary>
     /// DTO or Business Entity? don't know
     /// </summary>
-    public class WishList
+    public class WishListDTO
     {
         public string Name { get; set; } = string.Empty;
         public string UserDisplayName { get; set; } = string.Empty;
 
+
+
     }
 
+    public class WishListItemDTO
+    {
+        public string Description { get; set; }
+        public string Link { get; set; }
 
+        public string ImageLink { get; set; }
+        //Image
+    }
 
 }
