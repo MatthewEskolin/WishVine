@@ -1,3 +1,4 @@
 07/22/2023 try MudBlazor
 07/23/2023 continue to learn abound the @bind directive
 07/27/2023 setting up automapper remember to text it next time
+07/29/2023 checkin with automapper

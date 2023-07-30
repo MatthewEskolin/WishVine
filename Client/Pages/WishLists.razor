@@ -23,7 +23,7 @@ else
 
 
 
-    <MudTable Items="@_wishlists" SelectOnRowClick="true" SelectedItemChanged="EventCallback.Factory.Create<WishListDTO>(this,HandleTrailSelected)">
+    <MudTable Items="@_wishlists" @ref="mudTable" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListDTO>(this,HandleTrailSelected)">
         <HeaderContent>
 
             <MudTh>List Name</MudTh>
@@ -68,11 +68,15 @@ else
 
 
     //EXAMPLE 2
-    private MudTable<WishListDTO> mudTable;
+    private MudTable<WishListDTO>? mudTable;
     private WishListDTO? _selectedRow2;
+
+    //TODO Inject WishListState to track selected item
+    
+
     private string SelectedRowStyleFunc(WishListDTO wl, int rowNumber)
     {
-        if (mudTable.SelectedItem != null && mudTable.SelectedItem.Equals(wl))
+        if (mudTable?.SelectedItem != null && mudTable.SelectedItem.Equals(wl))
         {
             return "background-color: lightgrey";
         }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using WishVine.Server.AutoMapper;
+using WishVine.Server.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
+builder.Services.AddTransient<WishListService>();
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //builder.Services.adddauto
 
