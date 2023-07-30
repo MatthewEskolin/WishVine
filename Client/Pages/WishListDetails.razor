@@ -1,12 +1,57 @@
-﻿@page "/details/{wishlistId}"
+﻿@page "/details/{wishlistId:guid}"
+@inject HttpClient Http
 
 @*<h3>@name's List</h3>
 *@
+
+Details for @WishListId
+
+Items
+
+@* Table with WishListItemDTO *@
+<MudTable Items="@WishList!.Items" @ref="TblItems" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListItemDTO>(this,HandleSelectedWishListItem)">
+    <HeaderContent>
+        <MudTh>Item Name</MudTh>
+        <MudTh>Item Description</MudTh>
+        <MudTh>Item Price</MudTh>
+    </HeaderContent>
+<RowTemplate>
+    <MudTr>
+        <MudTd>@context.Description</MudTd>
+        <MudTd>@context.ImageLink</MudTd>
+        <MudTd>@context.Link</MudTd>
+    </MudTr>
+</RowTemplate>
+</MudTable>
+
 @code {
 
-    [Parameter]
-    public Guid wishListId { get; set; }
 
-    //
+
+    [Parameter]
+    public Guid WishListId { get; set; }
+
+    WishListDTO? WishList;
+    MudTable<WishListItemDTO>? TblItems;
+
+        protected override async Task OnInitializedAsync()
+        {
+            WishList = await Http.GetFromJsonAsync<WishListDTO>("WishList");
+        }
+
+        private string SelectedRowStyleFunc(WishListItemDTO wl, int rowNumber)
+        {
+        if (TblItems?.SelectedItem != null && TblItems.SelectedItem.Equals(wl))
+        {
+            return "background-color: lightgrey";
+        }
+        return string.Empty;
+        }
+
+
+    private void HandleSelectedWishListItem(WishListItemDTO obj)
+    {
+        throw new NotImplementedException();
+    }
 
 }

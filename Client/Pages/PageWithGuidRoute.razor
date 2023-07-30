@@ -1,0 +1,8 @@
+﻿@page "/guidtest/{guidparm:guid}"
+
+Displaying Guid Here @guidparm
+@code {
+
+    [Parameter]
+    public Guid guidparm {get; set;}
+}

@@ -1,10 +1,7 @@
 ﻿@page "/wishlist"
-@using WishVine.Shared
-@using MudBlazor
-@using MudBlazor.Extensions
-
-
+@inject NavigationManager NavigationManager
 @inject HttpClient Http
+@inject WishListState WishListState
 
 
 <h3>WishLists</h3>
@@ -23,7 +20,7 @@ else
 
 
 
-    <MudTable Items="@_wishlists" @ref="mudTable" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListDTO>(this,HandleTrailSelected)">
+    <MudTable Items="@_wishlists" @ref="_mudTable" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListDTO>(this,HandleSelectedWishList)">
         <HeaderContent>
 
             <MudTh>List Name</MudTh>
@@ -38,6 +35,10 @@ else
             </MudTr>
         </RowTemplate>
     </MudTable>
+
+
+    @* link to wishlistdetails *@
+    <MudButton OnClick="OnClick">Test Guid</MudButton>
 
     <!-- Bind Example -->
 @*    <MudTable T="WishList" @ref="mudTable" Items="_wishlists" RowStyleFunc="@SelectedRowStyleFunc" 
@@ -68,15 +69,14 @@ else
 
 
     //EXAMPLE 2
-    private MudTable<WishListDTO>? mudTable;
-    private WishListDTO? _selectedRow2;
+    private MudTable<WishListDTO>? _mudTable;
 
     //TODO Inject WishListState to track selected item
     
 
     private string SelectedRowStyleFunc(WishListDTO wl, int rowNumber)
     {
-        if (mudTable?.SelectedItem != null && mudTable.SelectedItem.Equals(wl))
+        if (_mudTable?.SelectedItem != null && _mudTable.SelectedItem.Equals(wl))
         {
             return "background-color: lightgrey";
         }
@@ -96,12 +96,28 @@ else
         _wishlists ??= await Http.GetFromJsonAsync<WishListDTO[]>("WishList");
     }
 
-    private void HandleTrailSelected(WishListDTO list) => _selectedRow = list;
+    private void HandleSelectedWishList(WishListDTO list)
+    {
+        _selectedRow = list;
+        //redirect user to another page
+        NavigationManager.NavigateTo($"/details/{list.Id}");
+        //NavigationManager.NavigateTo($"/details/{Guid.NewGuid()}");
+    }
+
+    
+
 
     //private Task Selected2()
     //{
 
         
     //}
+
+    private void OnClick()
+    {
+        var link = $"/guidtest/{Guid.NewGuid()}";
+        NavigationManager.NavigateTo(link);
+
+    }
 
 }

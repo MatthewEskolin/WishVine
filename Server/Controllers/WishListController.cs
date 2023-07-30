@@ -46,4 +46,15 @@ public class WishListController : ControllerBase
 
         return result;
     }
+
+    [HttpGet("{id}")] 
+    public WishListDTO Get(int id)
+    {
+        var wishList = WishListService.GetWishList(id);
+
+        var result = _mapper.Map<WishListDTO>(wishList);
+
+        return result;
+    }
+
 }

@@ -24,4 +24,14 @@ public class WishListService
 
         return list;
     }
+
+    public WishList GetWishList(int id)
+    {
+        throw new NotImplementedException();
+        
+        //Get From DataBase
+
+        //should we create the datacontext now?
+
+    }
 }
