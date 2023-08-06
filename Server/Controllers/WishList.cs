@@ -1,10 +1,12 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using WishVine.Shared;
 
 namespace WishVine.Server.Controllers;
 
 public class WishList
 {
+    [Key]
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string UserDisplayName { get; set; } = string.Empty;
@@ -17,14 +19,21 @@ public class WishList
             Id = Guid.NewGuid()
         };
 
-        list.Items.Add(WishListItem.GetTestItem());
-        list.Items.Add(WishListItem.GetTestItem());
-        list.Items.Add(WishListItem.GetTestItem());
-        list.Items.Add(WishListItem.GetTestItem());
-        list.Items.Add(WishListItem.GetTestItem());
+        list.AddItem(WishListItem.GetTestItem());
+        list.AddItem(WishListItem.GetTestItem());
+        list.AddItem(WishListItem.GetTestItem());
+        list.AddItem(WishListItem.GetTestItem());
+        list.AddItem(WishListItem.GetTestItem());
+        list.AddItem(WishListItem.GetTestItem());
 
         return list;
 
+    }
+
+    private void AddItem(WishListItem item)
+    {
+        item.WishList = this;
+        Items.Add(item);
     }
 
 
@@ -32,9 +41,14 @@ public class WishList
 
 public class WishListItem
 {
+    [Key]
+    public int WishListItemId { get; set; }
+    public Guid Id { get; set; }
+
     public string Description { get; set; } = string.Empty;
     public string Link { get; set; } = string.Empty;
     public string ImageLink { get; set; } = string.Empty;
+    public WishList WishList { get; set; }
 
     private static readonly Random Random = new();
 

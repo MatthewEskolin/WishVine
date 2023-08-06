@@ -1,11 +1,16 @@
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using WishVine.Server.AutoMapper;
 using WishVine.Server.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+//Add Db Context for sqlite
+builder.Services.AddDbContext<WishVineDbContext>(options =>
+{
+    options.UseSqlite("Data Source=wishvine.db");
+});
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
