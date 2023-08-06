@@ -3,4 +3,4 @@
 07/27/2023 setting up automapper remember to text it next time
 07/29/2023 checkin with automapper
 07/30/2023 try to get github copilot extension working - start adding datacontext in sqllite
-
+08/06/2023 checkin in dev?
