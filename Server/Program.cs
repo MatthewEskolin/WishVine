@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WishVine.Server.AutoMapper;
 using WishVine.Server.Controllers;
+using WishVine.Server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
