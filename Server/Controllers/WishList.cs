@@ -57,10 +57,12 @@ public class WishListItem
     {
         var testItem = new WishListItem
         {
-            Description = $"DESC-{GenerateRandomWord()}"
+            Description = $"DESC-{GenerateRandomWord()}",
+            Link = $"LINK-{GenerateRandomWord()}",
+            ImageLink = $"IMAGE-{GenerateRandomWord()}",
         };
 
-        return new WishListItem();
+        return testItem;
     }
 
     private static string GenerateRandomWord()

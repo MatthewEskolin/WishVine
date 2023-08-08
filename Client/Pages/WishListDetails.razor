@@ -1,28 +1,56 @@
 ﻿@page "/details/{wishlistId:guid}"
 @inject HttpClient Http
 
-@*<h3>@name's List</h3>
-*@
-
 Details for @WishListId
 
 Items
+@if (_wishList != null)
+{
+    @:There are @_wishList.Items.Count items in this list   
 
 @* Table with WishListItemDTO *@
-<MudTable Items="@WishList!.Items" @ref="TblItems" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListItemDTO>(this,HandleSelectedWishListItem)">
+    <MudTable Items="@_wishList.Items" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListItemDTO>(this, HandleSelectedWishListItem)">
+        <HeaderContent>
+
+            <MudTh>Item Name</MudTh>
+            <MudTh>Item Description</MudTh>
+            <MudTh>Item Price</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTr>
+                <MudTd>@context.Description</MudTd>
+                <MudTd>@context.ImageLink</MudTd>
+                <MudTd>@context.Link</MudTd>
+            </MudTr>
+        </RowTemplate>
+    </MudTable>
+
+
+
+
+}
+else
+{
+    @:Loading...
+}
+NEW TABLE
+
+
+<MudTable Items="@_wishList.Items" Hover="true" Breakpoint="Breakpoint.Sm" Loading="true" LoadingProgressColor="Color.Info">
     <HeaderContent>
-        <MudTh>Item Name</MudTh>
-        <MudTh>Item Description</MudTh>
-        <MudTh>Item Price</MudTh>
+        <MudTh>Nr</MudTh>
+        <MudTh>Sign</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Position</MudTh>
+        <MudTh>Molar mass</MudTh>
     </HeaderContent>
-<RowTemplate>
-    <MudTr>
-        <MudTd>@context.Description</MudTd>
-        <MudTd>@context.ImageLink</MudTd>
-        <MudTd>@context.Link</MudTd>
-    </MudTr>
-</RowTemplate>
+    <RowTemplate>
+        <MudTd DataLabel="Nr">@context.ImageLink</MudTd>
+        <MudTd DataLabel="Sign">@context.Description</MudTd>
+        <MudTd DataLabel="Name">@context.Link</MudTd>
+    </RowTemplate>
 </MudTable>
+
 
 @code {
 
@@ -31,17 +59,28 @@ Items
     [Parameter]
     public Guid WishListId { get; set; }
 
-    WishListDTO? WishList;
-    MudTable<WishListItemDTO>? TblItems;
+    WishListDTO? _wishList = new WishListDTO();
+    MudTable<WishListItemDTO>? _tblItems;
 
-        protected override async Task OnInitializedAsync()
-        {
-            WishList = await Http.GetFromJsonAsync<WishListDTO>("WishList");
-        }
+    protected override async Task OnInitializedAsync()
+    {
+        _wishList = await Http.GetFromJsonAsync<WishListDTO>($"WishList/{this.WishListId}");
+        Console.WriteLine("Initialized!");
+        StateHasChanged();
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Console.WriteLine($"After Render! {_wishList?.Items.Count} Items");
+        int i = 0;
+        i++;
+    }
+
 
         private string SelectedRowStyleFunc(WishListItemDTO wl, int rowNumber)
         {
-        if (TblItems?.SelectedItem != null && TblItems.SelectedItem.Equals(wl))
+        if (_tblItems?.SelectedItem != null && _tblItems.SelectedItem.Equals(wl))
         {
             return "background-color: lightgrey";
         }
@@ -51,7 +90,6 @@ Items
 
     private void HandleSelectedWishListItem(WishListItemDTO obj)
     {
-        throw new NotImplementedException();
     }
 
 }

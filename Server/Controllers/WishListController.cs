@@ -48,7 +48,7 @@ public class WishListController : ControllerBase
     }
 
     [HttpGet("{id}")] 
-    public WishListDTO Get(int id)
+    public WishListDTO Get(Guid id)
     {
         var wishList = WishListService.GetWishList(id);
 

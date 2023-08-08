@@ -25,13 +25,12 @@ public class WishListService
         return list;
     }
 
-    public WishList GetWishList(int id)
+    public WishList GetWishList(Guid id)
     {
-        throw new NotImplementedException();
-        
-        //Get From DataBase
 
-        //should we create the datacontext now?
+        var list1 = WishList.NewListWithTestItems();
+        list1.Name = "Matt's Wish List";
 
+        return list1;
     }
 }
