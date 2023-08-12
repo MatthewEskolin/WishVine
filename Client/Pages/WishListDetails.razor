@@ -1,48 +1,22 @@
 ﻿@page "/details/{wishlistId:guid}"
+@using System.Diagnostics.CodeAnalysis
+@using System.Globalization
 @inject HttpClient Http
 
-Details for @WishListId
+<div>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="EventCallback.Factory.Create<MouseEventArgs>(this, AddItem)">Create New</MudButton>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="AddItem">Create New Method Group</MudButton>
+</div>
+<div>
+<input type="button" class="btn btn-primary" value="Delete" Text="DELETE"
+       @onclick="(() => this.CreateNew())"  />
 
-Items
-@if (_wishList != null)
-{
-    @:There are @_wishList.Items.Count items in this list   
-
-@* Table with WishListItemDTO *@
-    <MudTable Items="@_wishList.Items" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListItemDTO>(this, HandleSelectedWishListItem)">
-        <HeaderContent>
-
-            <MudTh>Item Name</MudTh>
-            <MudTh>Item Description</MudTh>
-            <MudTh>Item Price</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTr>
-                <MudTd>@context.Description</MudTd>
-                <MudTd>@context.ImageLink</MudTd>
-                <MudTd>@context.Link</MudTd>
-            </MudTr>
-        </RowTemplate>
-    </MudTable>
-
-
-
-
-}
-else
-{
-    @:Loading...
-}
-NEW TABLE
-
-
-<MudTable Items="@_wishList.Items" Hover="true" Breakpoint="Breakpoint.Sm" Loading="true" LoadingProgressColor="Color.Info">
-    <HeaderContent>
-        <MudTh>Nr</MudTh>
-        <MudTh>Sign</MudTh>
-        <MudTh>Name</MudTh>
-        <MudTh>Position</MudTh>
-        <MudTh>Molar mass</MudTh>
+</div>
+<MudTable ref="@_tblItems" Items="@_wishList.Items" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@Loading" LoadingProgressColor="Color.Info" SelectedItemChanged="EventCallback.Factory.Create<WishListItemDTO>(this, HandleSelectedWishListItem)">
+<HeaderContent>
+        <MudTh>Item Name</MudTh>
+        <MudTh>Item Description</MudTh>
+        <MudTh>Item Link</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Nr">@context.ImageLink</MudTd>
@@ -54,42 +28,69 @@ NEW TABLE
 
 @code {
 
-
-
+    /// <summary>
+    /// ID To identify the wishlist
+    /// </summary>
     [Parameter]
     public Guid WishListId { get; set; }
 
-    WishListDTO? _wishList = new WishListDTO();
-    MudTable<WishListItemDTO>? _tblItems;
+    /// <summary>
+    /// True if Loading data
+    /// </summary>
+    public bool Loading { get; set; }
+
+    WishListDTO? _wishList = new();
+
+    MudTable<WishListItemDTO> _tblItems = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        _wishList = await Http.GetFromJsonAsync<WishListDTO>($"WishList/{this.WishListId}");
-        Console.WriteLine("Initialized!");
-        StateHasChanged();
+        await LoadWishList();
+    }
 
+    private async Task LoadWishList()
+    {
+        Loading = true;
+        _wishList = await Http.GetFromJsonAsync<WishListDTO>($"WishList/{this.WishListId}");
+
+        Console.WriteLine("Initialized!");
+
+        Loading = false;
+
+        StateHasChanged();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         Console.WriteLine($"After Render! {_wishList?.Items.Count} Items");
-        int i = 0;
-        i++;
     }
 
-
-        private string SelectedRowStyleFunc(WishListItemDTO wl, int rowNumber)
-        {
+    private string SelectedRowStyleFunc(WishListItemDTO wl, int rowNumber)
+    {
         if (_tblItems?.SelectedItem != null && _tblItems.SelectedItem.Equals(wl))
         {
             return "background-color: lightgrey";
         }
         return string.Empty;
-        }
+    }
 
 
     private void HandleSelectedWishListItem(WishListItemDTO obj)
     {
+    }
+
+    public void AddItem(MouseEventArgs args)
+    {
+        Console.WriteLine(args.ClientX.ToString(CultureInfo.InvariantCulture));
+        Console.WriteLine(args.ClientX.ToString(CultureInfo.InvariantCulture));
+
+        //NavigationManager.NavigateTo($"/additem/{WishListId}");
+    }
+
+    private Task CreateNew()
+    {
+        Console.WriteLine("Create New Here");
+        return Task.CompletedTask;
     }
 
 }
