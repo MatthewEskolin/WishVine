@@ -1,5 +1,4 @@
-﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-
+﻿
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -62,3 +61,50 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+
+/* Styling for the MudNavMenu */
+.ocean-nav-menu {
+    background-color: #0080b3; /* Deep blue color for the ocean */
+    padding: 20px;
+}
+
+.ocean {
+    background-color: #0080b3; /* Deep blue color for the ocean */
+}
+
+
+/* Styling for the MudNavLink */
+.ocean-nav-link {
+    color: #ffffff; /* White color for the text */
+    text-decoration: none;
+    padding: 10px 0;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+    /*.ocean-nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);*/ /* Light blue background on hover */
+    /*}*/
+
+/* Styling for the MudNavGroup */
+.ocean-nav-group {
+    margin-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* White separator line */
+    padding-top: 10px;
+}
+
+.ocean-nav-group-title {
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Styling for expanded MudNavGroup */
+.ocean-nav-group.expanded {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* White separator line */
+}
+

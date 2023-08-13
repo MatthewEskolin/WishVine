@@ -1,21 +1,33 @@
 ﻿@inherits LayoutComponentBase
+
 <MudThemeProvider />
-<div class="page">
-    <MudAppBar Color="Color.Success">
-        <MudText Typo="Typo.h4" class="px-4">MudBlazor Wasm Sample</MudText>
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+
+    <MudAppBar Class="ocean">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+
     </MudAppBar>
-
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
+    
+    
+    <MudDrawer @bind-Open="@_drawerOpen" Class="MudTable-height-full" Width="300px">
+        
+        <WishVineMudNav></WishVineMudNav> 
+    </MudDrawer>    
+    <MudMainContent>
         <article class="content px-4">
             @Body
         </article>
-    </main>
-</div>
+     </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
