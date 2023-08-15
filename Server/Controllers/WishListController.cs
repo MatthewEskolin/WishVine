@@ -47,6 +47,8 @@ public class WishListController : ControllerBase
         return result;
     }
 
+    //change 5 in main
+
     [HttpGet("{id}")] 
     public WishListDTO Get(Guid id)
     {
