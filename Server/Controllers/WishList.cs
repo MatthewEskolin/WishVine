@@ -58,6 +58,9 @@ public class WishListItem
 
     //changes in dev branch 6
 
+    //changes in dev branch 7
+
+
     public static WishListItem GetTestItem()
     {
         var testItem = new WishListItem
