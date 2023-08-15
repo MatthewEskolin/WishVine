@@ -1,7 +1,16 @@
+using WishVine.Server.Data;
+
 namespace WishVine.Server.Controllers;
 
 public class WishListService
 {
+    public WishListService(WishVineDbContext ctx)
+    {
+        Ctx = ctx;
+    }
+
+    private WishVineDbContext Ctx { get; set; }
+
     public List<WishList> GetWishLists()
     {
         var list1 = WishList.NewListWithTestItems();

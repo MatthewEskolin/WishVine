@@ -21,27 +21,25 @@ else
     }
 
 
+    
 
     <MudTable Items="@_wishlists" @ref="_mudTable" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListDTO>(this,HandleSelectedWishList)">
         <HeaderContent>
-
+            <MudTh>List Owner</MudTh>
             <MudTh>List Name</MudTh>
-            <MudTh>User Name</MudTh>
-            <MudTh>Details</MudTh>
+            <MudTh>Notes</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTr>
                 <MudTd>@context.Name</MudTd>
                 <MudTd>list property 2</MudTd>
                 <MudTd>list property 3</MudTd>
-            </MudTr>
         </RowTemplate>
     </MudTable>
 
 
     @* link to wishlistdetails *@
-    <MudButton OnClick="OnClick">Test Guid</MudButton>
-
+@*    <MudButton OnClick="OnClick">Test Guid</MudButton>
+*@
     <!-- Bind Example -->
 @*    <MudTable T="WishList" @ref="mudTable" Items="_wishlists" RowStyleFunc="@SelectedRowStyleFunc" 
           @bind-SelectedItem="_selectedRow2">
