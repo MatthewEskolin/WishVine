@@ -52,7 +52,9 @@ public class WishListItem
 
     private static readonly Random Random = new();
 
-    //changes in dev branch
+    //changes in dev branch 1
+
+    //changes in dev branch 2
     public static WishListItem GetTestItem()
     {
         var testItem = new WishListItem
