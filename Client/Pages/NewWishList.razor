@@ -1,0 +1,74 @@
+﻿@page "/newlist"
+@inject HttpClient Http
+
+<h3>New Wishlist</h3>
+
+@if (showAlert)
+{
+
+    <MudAlert @ref="_alert" Severity="Severity.Success" Elevation="0">
+    </MudAlert>
+
+}
+<MudForm @ref="_form" Model="@_wishList" OnValidSubmit="HandleValidSubmit">
+    <MudTextField @bind-Value="_wishList.Name" Label="Name" />
+    <MudTextField @bind-Value="_wishList.UserDisplayName" Label="User" />
+    
+    @*    //add mud elements to create list of wishlistitems
+    //add mud elements to create list of wishlistitems
+    <MudList>
+        @foreach (var item in _wishList.Items)
+        {
+            <MudListItem>
+                @item
+            </MudListItem>
+        }
+    </MudList>
+*@
+    <div style="margin-botom:15px"></div>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Type="submit">Submit</MudButton>
+
+</MudForm>
+@code {
+
+    private bool showAlert = false;
+
+    private WishListDTO _wishList = new WishListDTO();
+
+    private MudForm _form;
+    private MudAlert _alert;
+
+    private void HandleValidSubmitt()
+    {
+        var result = Http.PostAsJsonAsync("WishList/SaveNewList", _wishList);
+        if(result.Result.IsSuccessStatusCode)
+        {
+            showAlert = true;
+            _alert.ChildContent = GetAlertContent("Success");
+            _alert.Severity = Severity.Success;
+            //show success box
+            _form.Reset();
+        }
+        else
+        {
+            _alert.ChildContent = GetAlertContent("Error");
+            _alert.Severity = Severity.Error;
+            //show error box
+        }
+
+
+        _wishList = new WishListDTO();
+    }
+
+    private RenderFragment GetAlertContent(string contentType)
+    {
+        return contentType switch
+        {
+            "Success" => builder => { builder.AddContent(0, "Success"); },
+            "Error" => builder => { builder.AddContent(0, "Error"); },
+            _ => builder => { builder.AddContent(0, "This should never appear"); }
+
+            };
+    }
+}

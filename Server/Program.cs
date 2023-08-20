@@ -46,4 +46,9 @@ app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 
+//Seed the database
+SeedData.SeedDatabase(app.Services);
+
+
+
 app.Run();

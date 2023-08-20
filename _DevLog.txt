@@ -4,4 +4,4 @@
 07/29/2023 checkin with automapper
 07/30/2023 try to get github copilot extension working - start adding datacontext in sqllite
 08/06/2023 checkin in dev
-08/07/2023 Add ability to save and retrieve data from sqllite:
+08/07/2023 Add ability to save and retrieve data from sqllite: - make progress on mudform - important that we understand this - should learn the blazor way as well though

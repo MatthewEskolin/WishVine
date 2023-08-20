@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using WishVine.Server.Data;
 
 namespace WishVine.Server.Controllers;
@@ -11,7 +12,21 @@ public class WishListService
 
     private WishVineDbContext Ctx { get; set; }
 
-    public List<WishList> GetWishLists()
+    //method to save a new wish list to the database
+    public async Task<WishList> SaveWishList(WishList list)
+    {
+        Ctx.WishLists.Add(list);
+        await Ctx.SaveChangesAsync();
+        return list;
+    }
+
+    //method to get wish lists from the database based on criteria
+    public async Task<List<WishList>> GetWishLists()
+    {
+        return await Ctx.WishLists.ToListAsync();
+    }
+
+    public List<WishList> GetWishListsTest()
     {
 
 
@@ -35,12 +50,11 @@ public class WishListService
         return list;
     }
 
-    public WishList GetWishList(Guid id)
+    public async Task<WishList> GetWishList(Guid id)
     {
+        var list = await Ctx.WishLists.FirstAsync(x => x.Id == id);
+        return list;
 
-        var list1 = WishList.NewListWithTestItems();
-        list1.Name = "Matt's Wish List";
-
-        return list1;
+        //TODO add error handling for exception 
     }
 }

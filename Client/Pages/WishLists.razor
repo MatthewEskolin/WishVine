@@ -5,8 +5,13 @@
 @inject HttpClient Http
 @inject WishListState WishListState
 
+<style type="text/css">
+    .whitespace {
+        margin-bottom;: 20px;
+    };
+</style>
 
-<h3>WishLists</h3>
+<h1>WishLists</h1>
 
 @if (_wishlists == null)
 {
@@ -14,14 +19,15 @@
 }
 else
 {
-    @:Table 1 Monitor
-    <br />
     if(_selectedRow != null){ 
         @: you have selected @_selectedRow.Name
     }
-
-
     
+    <div class="whitespace"></div>
+
+    <div style="margin-bottom:15px;">
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="EventCallback.Factory.Create<MouseEventArgs>(this, AddItem)">Add New List</MudButton>
+    </div> 
 
     <MudTable Items="@_wishlists" @ref="_mudTable" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListDTO>(this,HandleSelectedWishList)">
         <HeaderContent>
@@ -104,7 +110,11 @@ else
         //NavigationManager.NavigateTo($"/details/{Guid.NewGuid()}");
     }
 
-    
+    public void AddItem(MouseEventArgs args)
+    {
+        //navigate to page to create a new wishlist
+        NavigationManager.NavigateTo($"/newlist");
+    }  
 
 
     //private Task Selected2()

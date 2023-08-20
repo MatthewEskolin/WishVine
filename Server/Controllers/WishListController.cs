@@ -38,25 +38,31 @@ public class WishListController : ControllerBase
 
 
     [HttpGet]
-    public IEnumerable<WishListDTO> Get()
+    public async Task<IEnumerable<WishListDTO>> GetAsync()
     {
-        var wishLists = WishListService.GetWishLists();
-
+        var wishLists = await WishListService.GetWishLists();
         var result = wishLists.Select(x => _mapper.Map<WishListDTO>(x));
-
         return result;
     }
 
     //change 5 in main
 
     [HttpGet("{id}")] 
-    public WishListDTO Get(Guid id)
+    public async Task<WishListDTO> GetAsync(Guid id)
     {
-        var wishList = WishListService.GetWishList(id);
+        var wishList = await WishListService.GetWishList(id);
 
         var result = _mapper.Map<WishListDTO>(wishList);
 
         return result;
+    }
+
+    [HttpPost]
+    public async Task<WishListDTO> SaveNewList(WishListDTO wishList)
+    {
+        var wishListEntity = _mapper.Map<WishList>(wishList);
+        var result = await WishListService.SaveWishList(wishListEntity);
+        return _mapper.Map<WishListDTO>(result);
     }
 
 }
