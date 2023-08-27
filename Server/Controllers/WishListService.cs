@@ -57,4 +57,12 @@ public class WishListService
 
         //TODO add error handling for exception 
     }
+
+    public async Task DeleteWishList(Guid id)
+    {
+        var list = await Ctx.WishLists.FirstAsync(x => x.Id == id);
+        Ctx.WishLists.Remove(list);
+        await Ctx.SaveChangesAsync();
+
+    }
 }

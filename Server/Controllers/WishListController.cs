@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using WishVine.Shared;
 
 namespace WishVine.Server.Controllers;
@@ -57,12 +58,70 @@ public class WishListController : ControllerBase
         return result;
     }
 
+    //[HttpPost]
+    //public async Task<WishListDTO> PostAsync([FromBody]WishListDTO wishList)
+    //{
+    //    var wishListEntity = _mapper.Map<WishList>(wishList);
+    //    var result = await WishListService.SaveWishList(wishListEntity);
+    //    return _mapper.Map<WishListDTO>(result);
+    //}
+
+    //[HttpPost]
+    ////[Route("DeleteWishList")]
+    //public async Task<IActionResult> DeleteWishList([FromBody] JObject id)
+    //{
+    //    var guidValue = id["id"]?.ToString();
+    //    if (guidValue == null)
+    //    {
+    //        return BadRequest("Invalid Id");
+    //    }
+
+    //    await WishListService.DeleteWishList(Guid.Parse(guidValue));
+    //    return Ok("List Deleted");
+    //}
+
+    //[HttpPost]
+    //[Route("DeleteWishListhide")]
+    //public async Task<IActionResult> DeleteWishList2([FromBody] JObject id)
+    //{
+    //    var guidValue = id["id"]?.ToString();
+    //    if (guidValue == null)
+    //    {
+    //        return BadRequest("Invalid Id");
+    //    }
+
+    //    await WishListService.DeleteWishList(Guid.Parse(guidValue));
+    //    return Ok("List Deleted");
+    //}
+
+    //[HttpPost]
+    //public async Task<IActionResult> Post([FromBody] JObject id)
+    //{
+    //    var guidValue = id["id"]?.ToString();
+    //    if (guidValue == null)
+    //    {
+    //        return BadRequest("Invalid Id");
+    //    }
+
+    //    await WishListService.DeleteWishList(Guid.Parse(guidValue));
+    //    return Ok("List Deleted");
+    //}
+
+    
     [HttpPost]
-    public async Task<WishListDTO> SaveNewList(WishListDTO wishList)
+    [Route("DeleteWishList")]
+    public async Task<IActionResult> DeleteWishList3(GuidDTO guid)
     {
-        var wishListEntity = _mapper.Map<WishList>(wishList);
-        var result = await WishListService.SaveWishList(wishListEntity);
-        return _mapper.Map<WishListDTO>(result);
+
+
+        var parse = Guid.TryParse(guid.ID.AsSpan(),out var result);
+        if (!parse)
+        {
+            return BadRequest("Invalid Id");
+        }
+
+        await WishListService.DeleteWishList(result);
+        return Ok("List Deleted");
     }
 
 }

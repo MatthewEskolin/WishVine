@@ -1,0 +1,47 @@
+﻿@* Wraps Mud Blazor AlertBox *@
+@inject AppState AppState
+
+@if (_showAlert)
+{
+    <MudAlert @ref="_alert" Severity="@_serverity" Elevation="0">
+        @_alertMessage
+    </MudAlert>
+
+}
+
+
+@code {
+
+    private bool _showAlert;
+    private string _alertMessage = "";
+    private Severity _serverity;
+    private MudAlert _alert = null!;
+
+    protected override void OnInitialized()
+    {
+        if (AppState.ShowMessageBox)
+        {
+            _showAlert = true;
+            _alertMessage = AppState.Message;
+            _serverity = AppState.Severity;
+        }
+
+        base.OnInitialized();
+    }
+
+    /// <summary>
+    /// After rendering the box, do not show on next component load
+    /// </summary>
+    /// <param name="firstRender"></param>
+    protected override void OnAfterRender(bool firstRender)
+    {
+        //if (AppState.ShowMessageBox)
+        //{
+        //    AppState.ShowMessageBox = false;
+        //}
+
+        base.OnAfterRender(firstRender);
+    }
+
+
+}

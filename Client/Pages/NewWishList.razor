@@ -1,74 +1,102 @@
 ﻿@page "/newlist"
 @inject HttpClient Http
+@inject AppState AppState
+@inject NavigationManager NavigationManager
 
 <h3>New Wishlist</h3>
 
 @if (showAlert)
 {
-
-    <MudAlert @ref="_alert" Severity="Severity.Success" Elevation="0">
+    <MudAlert @ref="_alert" Severity="@_serverity" Elevation="0">
+        @_alertMessage
     </MudAlert>
-
 }
-<MudForm @ref="_form" Model="@_wishList" OnValidSubmit="HandleValidSubmit">
-    <MudTextField @bind-Value="_wishList.Name" Label="Name" />
-    <MudTextField @bind-Value="_wishList.UserDisplayName" Label="User" />
-    
-    @*    //add mud elements to create list of wishlistitems
-    //add mud elements to create list of wishlistitems
-    <MudList>
-        @foreach (var item in _wishList.Items)
-        {
-            <MudListItem>
-                @item
-            </MudListItem>
-        }
-    </MudList>
-*@
-    <div style="margin-botom:15px"></div>
-
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" Type="submit">Submit</MudButton>
-
-</MudForm>
+<MudGrid>
+    <MudItem xs="12">
+        <MudForm @ref="_form" Model="@_wishList" @bind-Errors="@errors">
+            <MudTextField T="string" Required="true" RequiredError="List name is required!" @bind-Value="_wishList.Name" Label="Name"/>
+            <MudTextField T="string" @bind-Value="_wishList.UserDisplayName" Label="User"/>
+            <div style="margin-bottom:15px"></div>
+            <MudButton Color="Color.Primary" @onclick="() => SubmitForm()" Type="submit" Variant="Variant.Filled">Submit</MudButton>
+        </MudForm>
+    </MudItem>
+</MudGrid>
 @code {
 
-    private bool showAlert = false;
+    private bool showAlert;
+    private WishListDTO _wishList = new();
 
-    private WishListDTO _wishList = new WishListDTO();
+    private MudForm _form = null!;
+    private MudAlert? _alert;
+    private string[] errors = { };
+    private RenderFragment? _alertContent;
+    private string _alertMessage = "Message Not Set";
 
-    private MudForm _form;
-    private MudAlert _alert;
+    //Alert box
+    private Severity _serverity;
 
-    private void HandleValidSubmitt()
+    private async void SubmitForm()
     {
-        var result = Http.PostAsJsonAsync("WishList/SaveNewList", _wishList);
-        if(result.Result.IsSuccessStatusCode)
+        await _form.Validate();
+        if (_form is {IsValid: false }) return;
+
+        var result = await Http.PostAsJsonAsync("WishList", _wishList);
+
+        showAlert = true;
+
+        if(result.IsSuccessStatusCode)
         {
             showAlert = true;
-            _alert.ChildContent = GetAlertContent("Success");
-            _alert.Severity = Severity.Success;
-            //show success box
-            _form.Reset();
+            _alertMessage = "New List Created!";
+            _serverity =  Severity.Success;
+
+            AppState.SetMessage(_alertMessage, _serverity);
+
+            NavigationManager.NavigateTo("/");
+
+            //await _form.ResetAsync()!;
+            //_wishList = new WishListDTO();
         }
         else
         {
-            _alert.ChildContent = GetAlertContent("Error");
-            _alert.Severity = Severity.Error;
-            //show error box
+            _alertMessage = "Error Creating List!";
+            _serverity = Severity.Error;
+
+            AppState.SetMessage(_alertMessage, _serverity);
+
+            NavigationManager.NavigateTo("/");
         }
 
 
-        _wishList = new WishListDTO();
+
+        //StateHasChanged();
+
     }
 
-    private RenderFragment GetAlertContent(string contentType)
+    protected override void OnAfterRender(bool firstRender)
     {
-        return contentType switch
+        if (_alert != null)
         {
-            "Success" => builder => { builder.AddContent(0, "Success"); },
-            "Error" => builder => { builder.AddContent(0, "Error"); },
-            _ => builder => { builder.AddContent(0, "This should never appear"); }
 
-            };
+        }
+
+        if (_alert != null)
+        {
+
+        }
+
+        base.OnAfterRender(firstRender);
     }
+
+
+    //private RenderFragment GetAlertContent(string contentType)
+    //{
+    //    return contentType switch
+    //    {
+    //        "Success" => builder => { builder.AddContent(0, "Success"); },
+    //        "Error" => builder => { builder.AddContent(0, "Error"); },
+    //        _ => builder => { builder.AddContent(0, "This should never appear"); }
+
+    //        };
+    //}
 }
