@@ -1,5 +1,5 @@
-using WishVine.Server.Controllers;
 using WishVine.Server.Data;
+using WishVine.Server.DomainData;
 
 public class SeedData
 {

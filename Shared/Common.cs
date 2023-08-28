@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace WishVine.Shared
 {
-    public class GuidDTO 
+    public class GuidDTO
     {
-        public string ID { get; set; }
+        public string ID { get; set; } = null!;
     }
 }

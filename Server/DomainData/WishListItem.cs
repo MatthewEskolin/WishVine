@@ -1,43 +1,6 @@
-using System;
 using System.ComponentModel.DataAnnotations;
-using WishVine.Shared;
 
-namespace WishVine.Server.Controllers;
-
-public class WishList
-{
-    [Key]
-    public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string UserDisplayName { get; set; } = string.Empty;
-    public List<WishListItem> Items { get; set; } = new();
-
-    public static WishList NewListWithTestItems()
-    {
-        var list = new WishList
-        {
-            Id = Guid.NewGuid()
-        };
-
-        list.AddItem(WishListItem.GetTestItem());
-        list.AddItem(WishListItem.GetTestItem());
-        list.AddItem(WishListItem.GetTestItem());
-        list.AddItem(WishListItem.GetTestItem());
-        list.AddItem(WishListItem.GetTestItem());
-        list.AddItem(WishListItem.GetTestItem());
-
-        return list;
-
-    }
-
-    private void AddItem(WishListItem item)
-    {
-        item.WishList = this;
-        Items.Add(item);
-    }
-
-
-}
+namespace WishVine.Server.DomainData;
 
 public class WishListItem
 {
@@ -48,7 +11,7 @@ public class WishListItem
     public string Description { get; set; } = string.Empty;
     public string Link { get; set; } = string.Empty;
     public string ImageLink { get; set; } = string.Empty;
-    public WishList WishList { get; set; }
+    public WishList WishList { get; set; } = null!;
 
     private static readonly Random Random = new();
 

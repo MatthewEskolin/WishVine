@@ -1,5 +1,7 @@
 ﻿@* Wraps Mud Blazor AlertBox *@
 @inject AppState AppState
+@inject NavigationManager NavigationManager
+
 
 @if (_showAlert)
 {
@@ -17,8 +19,13 @@
     private Severity _serverity;
     private MudAlert _alert = null!;
 
+    private string _alertLocation = null!;
+
+
     protected override void OnInitialized()
     {
+        AppState.MessageStateChanged += MessageStateChanged;
+
         if (AppState.ShowMessageBox)
         {
             _showAlert = true;
@@ -29,16 +36,58 @@
         base.OnInitialized();
     }
 
+    private void MessageStateChanged()
+    {
+        if (AppState.ShowMessageBox)
+        {
+            _showAlert = true;
+            _alertMessage = AppState.Message;
+            _serverity = AppState.Severity;
+        }
+
+        _alertLocation = GetPageName(NavigationManager.Uri);
+
+
+        //TODO check if we really need this!
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+       AppState.MessageStateChanged -= MessageStateChanged;
+       NavigationManager.LocationChanged -= HandleLocationChange;
+    }
+
+    
+    private string GetPageName(string uri)
+    {
+        var uriObj = new Uri(uri);
+        var segments = uriObj.Segments;
+
+        return segments.Length >= 2 ? segments[1] : string.Empty;
+    }
+
+    private void HandleLocationChange(object? sender, LocationChangedEventArgs e)
+    {
+        //if user is navigating away from the alert page, clear the alert!
+        if (_alertLocation != GetPageName(e.Location))
+        {
+            _showAlert = false;
+            _alertMessage = "";
+            _serverity = Severity.Info;
+        }
+    }
+
     /// <summary>
     /// After rendering the box, do not show on next component load
     /// </summary>
     /// <param name="firstRender"></param>
     protected override void OnAfterRender(bool firstRender)
     {
-        //if (AppState.ShowMessageBox)
-        //{
-        //    AppState.ShowMessageBox = false;
-        //}
+        if (_showAlert)
+        {
+            _alertLocation = GetPageName(NavigationManager.Uri);
+        }
 
         base.OnAfterRender(firstRender);
     }

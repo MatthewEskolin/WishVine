@@ -6,3 +6,5 @@
 08/06/2023 checkin in dev
 08/07/2023 Add ability to save and retrieve data from sqllite: - make progress on mudform - important that we understand this - should learn the blazor way as well though
 08/20/2023 mudform again - need to create ablity to delete list
+08/27/2023 esmessagebox - how to get it to disappear after showing the message once - navigating to new page should clear the message? what about a timer? shold it disappear after 5 seconds?
+

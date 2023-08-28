@@ -3,7 +3,7 @@
 @inject AppState AppState
 @inject NavigationManager NavigationManager
 
-<h3>New Wishlist</h3>
+<h3>New Wish List</h3>
 
 @if (showAlert)
 {
@@ -50,9 +50,10 @@
             _alertMessage = "New List Created!";
             _serverity =  Severity.Success;
 
-            AppState.SetMessage(_alertMessage, _serverity);
 
             NavigationManager.NavigateTo("/");
+
+            AppState.SetMessage(_alertMessage, _serverity);
 
             //await _form.ResetAsync()!;
             //_wishList = new WishListDTO();
