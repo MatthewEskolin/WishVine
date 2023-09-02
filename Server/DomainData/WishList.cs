@@ -10,6 +10,21 @@ public class WishList
     public string UserDisplayName { get; set; } = string.Empty;
     public List<WishListItem> Items { get; set; } = new();
 
+    public string Description { get; set; }
+    public int ItemCount { get; set; }
+    public bool NewItems { get; set; }
+
+    public void AddItem(WishListItem item)
+    {
+        item.WishList = this;
+        Items.Add(item);
+    }
+
+
+}
+
+public class TestWishList : WishList
+{
     public static WishList NewListWithTestItems()
     {
         var list = new WishList
@@ -27,12 +42,5 @@ public class WishList
         return list;
 
     }
-
-    private void AddItem(WishListItem item)
-    {
-        item.WishList = this;
-        Items.Add(item);
-    }
-
 
 }

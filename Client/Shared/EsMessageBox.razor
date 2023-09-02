@@ -25,6 +25,7 @@
     protected override void OnInitialized()
     {
         AppState.MessageStateChanged += MessageStateChanged;
+        //NavigationManager.LocationChanged += HandleLocationChange;
 
         if (AppState.ShowMessageBox)
         {
@@ -44,8 +45,13 @@
             _alertMessage = AppState.Message;
             _serverity = AppState.Severity;
         }
+        else
+        {
+            _showAlert = false;
+            _alertMessage = "";
+        }
 
-        _alertLocation = GetPageName(NavigationManager.Uri);
+        //_alertLocation = GetPageName(NavigationManager.Uri);
 
 
         //TODO check if we really need this!
@@ -55,42 +61,43 @@
     public void Dispose()
     {
        AppState.MessageStateChanged -= MessageStateChanged;
-       NavigationManager.LocationChanged -= HandleLocationChange;
+       //NavigationManager.LocationChanged -= HandleLocationChange;
     }
 
     
-    private string GetPageName(string uri)
-    {
-        var uriObj = new Uri(uri);
-        var segments = uriObj.Segments;
+    //private string GetPageName(string uri)
+    //{
+    //    var uriObj = new Uri(uri);
+    //    var segments = uriObj.Segments;
 
-        return segments.Length >= 2 ? segments[1] : string.Empty;
-    }
+    //    return segments.Length >= 2 ? segments[1] : string.Empty;
+    //}
 
-    private void HandleLocationChange(object? sender, LocationChangedEventArgs e)
-    {
-        //if user is navigating away from the alert page, clear the alert!
-        if (_alertLocation != GetPageName(e.Location))
-        {
-            _showAlert = false;
-            _alertMessage = "";
-            _serverity = Severity.Info;
-        }
-    }
+    //private void HandleLocationChange(object? sender, LocationChangedEventArgs e)
+    //{
+    //    //if user is navigating away from the alert page, clear the alert!
+    //    if (_alertLocation != GetPageName(e.Location))
+    //    {
+    //        Console.WriteLine("HandleLocationChange!");
+    //        //_showAlert = false;
+    //        //_alertMessage = "";
+    //        //_serverity = Severity.Info;
+    //    }
+    //}
 
-    /// <summary>
-    /// After rendering the box, do not show on next component load
-    /// </summary>
-    /// <param name="firstRender"></param>
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (_showAlert)
-        {
-            _alertLocation = GetPageName(NavigationManager.Uri);
-        }
+    ///// <summary>
+    ///// After rendering the box, do not show on next component load
+    ///// </summary>
+    ///// <param name="firstRender"></param>
+    //protected override void OnAfterRender(bool firstRender)
+    //{
+    //    if (_showAlert)
+    //    {
+    //        _alertLocation = GetPageName(NavigationManager.Uri);
+    //    }
 
-        base.OnAfterRender(firstRender);
-    }
+    //    base.OnAfterRender(firstRender);
+    //}
 
 
 }

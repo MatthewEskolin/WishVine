@@ -14,6 +14,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddSingleton<WishListState>();
 builder.Services.AddSingleton<AppState>();
 
+
 builder.Services.AddMudServices();
 
 

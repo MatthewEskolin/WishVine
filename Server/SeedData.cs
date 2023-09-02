@@ -13,13 +13,13 @@ public class SeedData
 
         if (!context.WishLists.Any())
         {
-            var list1 = WishList.NewListWithTestItems();
+            var list1 = TestWishList.NewListWithTestItems();
             list1.Name = "Matt's Wish List";
 
-            var list2 = WishList.NewListWithTestItems();
+            var list2 = TestWishList.NewListWithTestItems();
             list2.Name = "Sara's Wish List";
 
-            var list3 = WishList.NewListWithTestItems();
+            var list3 = TestWishList.NewListWithTestItems();
             list3.Name = "Tom's Wish List";
 
             var list = new List<WishList>

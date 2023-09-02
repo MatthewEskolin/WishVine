@@ -10,5 +10,7 @@ public class WishListDTO
     public string UserDisplayName { get; set; } = string.Empty;
 
     public List<WishListItemDTO> Items { get; set; } = new();
-
+    public string Description { get; set; }
+    public int ItemCount { get; set; }
+    public bool NewItems { get; set; }
 }

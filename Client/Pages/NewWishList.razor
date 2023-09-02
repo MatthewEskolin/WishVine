@@ -5,17 +5,12 @@
 
 <h3>New Wish List</h3>
 
-@if (showAlert)
-{
-    <MudAlert @ref="_alert" Severity="@_serverity" Elevation="0">
-        @_alertMessage
-    </MudAlert>
-}
 <MudGrid>
     <MudItem xs="12">
-        <MudForm @ref="_form" Model="@_wishList" @bind-Errors="@errors">
-            <MudTextField T="string" Required="true" RequiredError="List name is required!" @bind-Value="_wishList.Name" Label="Name"/>
-            <MudTextField T="string" @bind-Value="_wishList.UserDisplayName" Label="User"/>
+        <MudForm @ref="_form" Model="@_wishList" @bind-Errors="@_errors">
+            <MudTextField T="string" Required="true" RequiredError="List name is required!" @bind-Value="_wishList.Name" Label="Name" />
+            <MudTextField T="string" @bind-Value="_wishList.UserDisplayName" Label="User" />
+            <MudTextField T="string" @bind-Value="_wishList.Description" Variant="Variant.Outlined "Lines="2" Label="User" />
             <div style="margin-bottom:15px"></div>
             <MudButton Color="Color.Primary" @onclick="() => SubmitForm()" Type="submit" Variant="Variant.Filled">Submit</MudButton>
         </MudForm>
@@ -23,81 +18,30 @@
 </MudGrid>
 @code {
 
-    private bool showAlert;
-    private WishListDTO _wishList = new();
+    private readonly WishListDTO _wishList = new();
 
     private MudForm _form = null!;
-    private MudAlert? _alert;
-    private string[] errors = { };
-    private RenderFragment? _alertContent;
-    private string _alertMessage = "Message Not Set";
-
-    //Alert box
-    private Severity _serverity;
+    private string[] _errors = { };
 
     private async void SubmitForm()
     {
         await _form.Validate();
-        if (_form is {IsValid: false }) return;
+        if (_form is { IsValid: false }) return;
 
         var result = await Http.PostAsJsonAsync("WishList", _wishList);
 
-        showAlert = true;
-
-        if(result.IsSuccessStatusCode)
+        if (result.IsSuccessStatusCode)
         {
-            showAlert = true;
-            _alertMessage = "New List Created!";
-            _serverity =  Severity.Success;
-
-
+            AppState.SetMessage("New List Created!", Severity.Success);
             NavigationManager.NavigateTo("/");
-
-            AppState.SetMessage(_alertMessage, _serverity);
-
-            //await _form.ResetAsync()!;
-            //_wishList = new WishListDTO();
         }
         else
         {
-            _alertMessage = "Error Creating List!";
-            _serverity = Severity.Error;
-
-            AppState.SetMessage(_alertMessage, _serverity);
-
+            AppState.SetMessage("Error Creatint List!", Severity.Error);
             NavigationManager.NavigateTo("/");
         }
-
-
-
-        //StateHasChanged();
-
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (_alert != null)
-        {
-
-        }
-
-        if (_alert != null)
-        {
-
-        }
-
-        base.OnAfterRender(firstRender);
     }
 
 
-    //private RenderFragment GetAlertContent(string contentType)
-    //{
-    //    return contentType switch
-    //    {
-    //        "Success" => builder => { builder.AddContent(0, "Success"); },
-    //        "Error" => builder => { builder.AddContent(0, "Error"); },
-    //        _ => builder => { builder.AddContent(0, "This should never appear"); }
 
-    //        };
-    //}
 }

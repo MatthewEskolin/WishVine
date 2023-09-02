@@ -13,6 +13,8 @@
 
 <h1>WishLists</h1>
 
+<EsMessageBox></EsMessageBox> 
+
 @if (_wishlists == null)
 {
     <p><em>Loading...</em></p>
@@ -36,9 +38,11 @@ else
             <MudTh>Notes</MudTh>
         </HeaderContent>
         <RowTemplate>
-                <MudTd>@context.Name</MudTd>
-                <MudTd>list property 2</MudTd>
-                <MudTd>list property 3</MudTd>
+            <MudTd>@context.UserDisplayName</MudTd>
+            <MudTd>@context.Name</MudTd>
+            <MudTd>@context.Description</MudTd>
+            <MudTd>@context.ItemCount</MudTd>
+            <MudTd>@context.NewItems</MudTd>
         </RowTemplate>
     </MudTable>
 
