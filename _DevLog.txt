@@ -8,4 +8,5 @@
 08/20/2023 mudform again - need to create ablity to delete list
 08/27/2023 esmessagebox - how to get it to disappear after showing the message once - navigating to new page should clear the message? what about a timer? shold it disappear after 5 seconds?
 08/31/2023 Think about adding basic user account functionality
-
+08/31/2023 check-in 
+09/02/2023 try upgrading to .net 7 for auth0 from blazor book
