@@ -15,6 +15,7 @@ builder.Services.AddSingleton<WishListState>();
 builder.Services.AddSingleton<AppState>();
 
 
+
 builder.Services.AddMudServices();
 
 

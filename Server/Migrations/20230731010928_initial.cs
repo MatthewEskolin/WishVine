@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WishVine.Server.Migrations
 {
     /// <inheritdoc />
+#pragma warning disable CS8981
     public partial class initial : Migration
+#pragma warning restore CS8981
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

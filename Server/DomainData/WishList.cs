@@ -10,7 +10,7 @@ public class WishList
     public string UserDisplayName { get; set; } = string.Empty;
     public List<WishListItem> Items { get; set; } = new();
 
-    public string Description { get; set; }
+    public string Description { get; set; } = null!;
     public int ItemCount { get; set; }
     public bool NewItems { get; set; }
 
