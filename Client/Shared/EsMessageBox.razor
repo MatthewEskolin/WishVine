@@ -1,0 +1,103 @@
+﻿@* Wraps Mud Blazor AlertBox *@
+@inject AppState AppState
+@inject NavigationManager NavigationManager
+
+
+@if (_showAlert)
+{
+    <MudAlert @ref="_alert" Severity="@_serverity" Elevation="0">
+        @_alertMessage
+    </MudAlert>
+
+}
+
+
+@code {
+
+    private bool _showAlert;
+    private string _alertMessage = "";
+    private Severity _serverity;
+    private MudAlert _alert = null!;
+
+    private string _alertLocation = null!;
+
+
+    protected override void OnInitialized()
+    {
+        AppState.MessageStateChanged += MessageStateChanged;
+        //NavigationManager.LocationChanged += HandleLocationChange;
+
+        if (AppState.ShowMessageBox)
+        {
+            _showAlert = true;
+            _alertMessage = AppState.Message;
+            _serverity = AppState.Severity;
+        }
+
+        base.OnInitialized();
+    }
+
+    private void MessageStateChanged()
+    {
+        if (AppState.ShowMessageBox)
+        {
+            _showAlert = true;
+            _alertMessage = AppState.Message;
+            _serverity = AppState.Severity;
+        }
+        else
+        {
+            _showAlert = false;
+            _alertMessage = "";
+        }
+
+        //_alertLocation = GetPageName(NavigationManager.Uri);
+
+
+        //TODO check if we really need this!
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+       AppState.MessageStateChanged -= MessageStateChanged;
+       //NavigationManager.LocationChanged -= HandleLocationChange;
+    }
+
+    
+    //private string GetPageName(string uri)
+    //{
+    //    var uriObj = new Uri(uri);
+    //    var segments = uriObj.Segments;
+
+    //    return segments.Length >= 2 ? segments[1] : string.Empty;
+    //}
+
+    //private void HandleLocationChange(object? sender, LocationChangedEventArgs e)
+    //{
+    //    //if user is navigating away from the alert page, clear the alert!
+    //    if (_alertLocation != GetPageName(e.Location))
+    //    {
+    //        Console.WriteLine("HandleLocationChange!");
+    //        //_showAlert = false;
+    //        //_alertMessage = "";
+    //        //_serverity = Severity.Info;
+    //    }
+    //}
+
+    ///// <summary>
+    ///// After rendering the box, do not show on next component load
+    ///// </summary>
+    ///// <param name="firstRender"></param>
+    //protected override void OnAfterRender(bool firstRender)
+    //{
+    //    if (_showAlert)
+    //    {
+    //        _alertLocation = GetPageName(NavigationManager.Uri);
+    //    }
+
+    //    base.OnAfterRender(firstRender);
+    //}
+
+
+}

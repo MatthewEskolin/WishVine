@@ -1,0 +1,47 @@
+﻿@page "/newlist"
+@inject HttpClient Http
+@inject AppState AppState
+@inject NavigationManager NavigationManager
+
+<h3>New Wish List</h3>
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudForm @ref="_form" Model="@_wishList" @bind-Errors="@_errors">
+            <MudTextField T="string" Required="true" RequiredError="List name is required!" @bind-Value="_wishList.Name" Label="Name" />
+            <MudTextField T="string" @bind-Value="_wishList.UserDisplayName" Label="User" />
+            <MudTextField T="string" @bind-Value="_wishList.Description" Variant="Variant.Outlined "Lines="2" Label="User" />
+            <div style="margin-bottom:15px"></div>
+            <MudButton Color="Color.Primary" @onclick="() => SubmitForm()" Type="submit" Variant="Variant.Filled">Submit</MudButton>
+        </MudForm>
+    </MudItem>
+</MudGrid>
+@code {
+
+    private readonly WishListDTO _wishList = new();
+
+    private MudForm _form = null!;
+    private string[] _errors = { };
+
+    private async void SubmitForm()
+    {
+        await _form.Validate();
+        if (_form is { IsValid: false }) return;
+
+        var result = await Http.PostAsJsonAsync("WishList", _wishList);
+
+        if (result.IsSuccessStatusCode)
+        {
+            AppState.SetMessage("New List Created!", Severity.Success);
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            AppState.SetMessage("Error Creatint List!", Severity.Error);
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+
+
+}

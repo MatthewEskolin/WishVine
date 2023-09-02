@@ -1,18 +1,19 @@
 ﻿@page "/details/{wishlistId:guid}"
-@using System.Diagnostics.CodeAnalysis
-@using System.Globalization
+@using WishVine.Shared.GeneralLib
 @inject HttpClient Http
+@inject AppState AppState
+@inject NavigationManager NavigationManager
 
 <div>
-    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="EventCallback.Factory.Create<MouseEventArgs>(this, AddItem)">Create New</MudButton>
-    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="AddItem">Create New Method Group</MudButton>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="EventCallback.Factory.Create<MouseEventArgs>(this, AddItem)">New Item</MudButton>
+    <MudButton Color="Color.Tertiary" Variant="Variant.Filled" OnClick="DeleteWishList">Delete</MudButton>
 </div>
 <div>
 <input type="button" class="btn btn-primary" value="Delete" Text="DELETE"
-       @onclick="(() => this.CreateNew())"  />
+       @onclick="(async () => await this.CreateNew())"  />
 
 </div>
-<MudTable ref="@_tblItems" Items="@_wishList.Items" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@Loading" LoadingProgressColor="Color.Info" SelectedItemChanged="EventCallback.Factory.Create<WishListItemDTO>(this, HandleSelectedWishListItem)">
+<MudTable ref="@_tblItems" Items="@_wishList!.Items" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@Loading" LoadingProgressColor="Color.Info" SelectedItemChanged="EventCallback.Factory.Create<WishListItemDTO>(this, HandleSelectedWishListItem)">
 <HeaderContent>
         <MudTh>Item Name</MudTh>
         <MudTh>Item Description</MudTh>
@@ -62,6 +63,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await Task.CompletedTask;
         Console.WriteLine($"After Render! {_wishList?.Items.Count} Items");
     }
 
@@ -81,16 +83,41 @@
 
     public void AddItem(MouseEventArgs args)
     {
-        Console.WriteLine(args.ClientX.ToString(CultureInfo.InvariantCulture));
-        Console.WriteLine(args.ClientX.ToString(CultureInfo.InvariantCulture));
+        Console.WriteLine("Add Item Here");
 
         //NavigationManager.NavigateTo($"/additem/{WishListId}");
     }
 
     private Task CreateNew()
     {
+        //Delete list and redirect to home with message state
+
         Console.WriteLine("Create New Here");
         return Task.CompletedTask;
     }
+
+    private async Task DeleteWishList()
+    {
+    //Delete list and redirect to home with messa //ge state
+        if (_wishList != null)
+        {
+
+            var json = JsonContent.Create(new GuidDTO() {ID= _wishList.Id.ToString()});
+            var result = await Http.PostAsync($"WishList/DeleteWishList", json);
+
+            if (result.IsSuccessStatusCode)
+            {
+                AppState.SetMessage("List Deleted", Severity.Normal);
+                NavigationManager.NavigateTo("/");
+            }
+            else
+            {
+                
+                AppState.SetMessage("Error Deleting List", Severity.Normal);
+            }
+
+        }
+    }
+
 
 }

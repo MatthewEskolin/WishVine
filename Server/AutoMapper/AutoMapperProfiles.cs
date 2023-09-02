@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using WishVine.Server.Controllers;
+﻿using WishVine.Server.DomainData;
 using WishVine.Shared;
 
 namespace WishVine.Server.AutoMapper

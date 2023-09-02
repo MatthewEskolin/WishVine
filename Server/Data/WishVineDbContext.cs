@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WishVine.Server.Controllers;
+using WishVine.Server.DomainData;
 
 namespace WishVine.Server.Data;
 
