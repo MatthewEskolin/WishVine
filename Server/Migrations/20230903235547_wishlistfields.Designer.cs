@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WishVine.Server.Data;
 
@@ -10,9 +11,11 @@ using WishVine.Server.Data;
 namespace WishVine.Server.Migrations
 {
     [DbContext(typeof(WishVineDbContext))]
-    partial class WishVineDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230903235547_wishlistfields")]
+    partial class wishlistfields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");

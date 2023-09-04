@@ -4,9 +4,9 @@ using MudBlazor.Services;
 using WishVine.Client;
 using WishVine.Shared;
 
+
+
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-
-
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
@@ -14,7 +14,11 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddSingleton<WishListState>();
 builder.Services.AddSingleton<AppState>();
 
-
+builder.Services.AddOidcAuthentication(options =>
+{
+    builder.Configuration.Bind("Auth0", options.ProviderOptions);
+    options.ProviderOptions.ResponseType = "code";
+});
 
 builder.Services.AddMudServices();
 
