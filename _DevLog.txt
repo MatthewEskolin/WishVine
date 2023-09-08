@@ -10,3 +10,4 @@
 08/31/2023 Think about adding basic user account functionality
 08/31/2023 check-in 
 09/02/2023 try upgrading to .net 7 for auth0 from blazor book
+09/07/2023 reading about identity with blazor wasm and how to use cookie authentication. so we don't need an identity server
