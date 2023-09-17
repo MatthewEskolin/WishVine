@@ -1,79 +1,60 @@
 ﻿@page "/wishlist"
 @page "/"
-
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
-@inject WishListState WishListState
 
-<style type="text/css">
+<AuthorizeView>
+    <Authorized>
+
+
+        <style type="text/css">
     .whitespace {
         margin-bottom;: 20px;
     };
 </style>
 
-<h1>WishLists</h1>
+        <h1>WishLists</h1>
 
-<EsMessageBox></EsMessageBox> 
+        <EsMessageBox></EsMessageBox> 
 
-@if (_wishlists == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    if(_selectedRow != null){ 
-        @: you have selected @_selectedRow.Name
-    }
+        @if (_wishlists == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            if(_selectedRow != null){ 
+                @: you have selected @_selectedRow.Name
+            }
     
-    <div class="whitespace"></div>
+            <div class="whitespace"></div>
 
-    <div style="margin-bottom:15px;">
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="EventCallback.Factory.Create<MouseEventArgs>(this, AddItem)">Add New List</MudButton>
-    </div> 
+            <div style="margin-bottom:15px;">
+                <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="EventCallback.Factory.Create<MouseEventArgs>(this, AddItem)">Add New List</MudButton>
+            </div> 
 
-    <MudTable Items="@_wishlists" @ref="_mudTable" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListDTO>(this,HandleSelectedWishList)">
-        <HeaderContent>
-            <MudTh>List Owner</MudTh>
-            <MudTh>List Name</MudTh>
-            <MudTh>Notes</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd>@context.UserDisplayName</MudTd>
-            <MudTd>@context.Name</MudTd>
-            <MudTd>@context.Description</MudTd>
-            <MudTd>@context.ItemCount</MudTd>
-            <MudTd>@context.NewItems</MudTd>
-        </RowTemplate>
-    </MudTable>
+            <MudTable Items="@_wishlists" @ref="_mudTable" SelectOnRowClick="true" RowStyleFunc="@SelectedRowStyleFunc" SelectedItemChanged="EventCallback.Factory.Create<WishListDTO>(this,HandleSelectedWishList)">
+                <HeaderContent>
+                    <MudTh>List Owner</MudTh>
+                    <MudTh>List Name</MudTh>
+                    <MudTh>Notes</MudTh>
+                </HeaderContent>
+                <RowTemplate Context="rtContext">
+                    <MudTd>@rtContext.UserDisplayName</MudTd>
+                    <MudTd>@rtContext.Name</MudTd>
+                    <MudTd>@rtContext.Description</MudTd>
+                    <MudTd>@rtContext.ItemCount</MudTd>
+                    <MudTd>@rtContext.NewItems</MudTd>
+                </RowTemplate>
+            </MudTable>
 
 
-    @* link to wishlistdetails *@
-@*    <MudButton OnClick="OnClick">Test Guid</MudButton>
-*@
-    <!-- Bind Example -->
-@*    <MudTable T="WishList" @ref="mudTable" Items="_wishlists" RowStyleFunc="@SelectedRowStyleFunc" 
-          @bind-SelectedItem="_selectedRow2">
-        <HeaderContent>
-            <MudTh>List Name</MudTh>
-            <MudTh>User Name</MudTh>
-            <MudTh>Details</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTr>
-                <MudTd>@context.Name</MudTd>
-                <MudTd>list property 2</MudTd>
-                <MudTd>list property 3</MudTd>
-            </MudTr>
-        </RowTemplate>
-    </MudTable>
-
-    @:Table 2 Monitor <br />
-    if (_selectedRow2 != null)
-    {
-        @: you have selected @_selectedRow2.Name
-    }*@
-
-}
+        }
+    </Authorized>
+    <NotAuthorized>
+        WishLists.razor component requires authorization
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
 
@@ -119,13 +100,6 @@ else
         //navigate to page to create a new wishlist
         NavigationManager.NavigateTo($"/newlist");
     }  
-
-
-    //private Task Selected2()
-    //{
-
-        
-    //}
 
     private void OnClick()
     {

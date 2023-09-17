@@ -1,8 +1,11 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using WishVine.Client;
+using WishVine.Client.Services.Internal;
+using WishVine.Client.Services.Public;
 using WishVine.Shared;
 
 
@@ -23,5 +26,10 @@ builder.Services.AddOidcAuthentication(options =>
 });
 
 builder.Services.AddMudServices();
+builder.Services.AddAuthorizationCore();
+
+builder.Services.AddScoped<IdentityAuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<IdentityAuthenticationStateProvider>());
+builder.Services.AddScoped<IdentityAPI>();
 
 await builder.Build().RunAsync();

@@ -1,14 +1,27 @@
-﻿<CascadingAuthenticationState>
+﻿@inject NavigationManager NavigationManager
+
+<CascadingAuthenticationState>
         <Router AppAssembly="@typeof(App).Assembly">
             <Found Context="routeData">
                 <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-                    <Authorizing>
+@*                    <Authorizing>
                         <PageTitle>Authentication</PageTitle>
                         <p>Checking authentication state...</p>
-                    </Authorizing>
+                        @if (NavigationManager.BaseUri == "test")
+                        {
+                            var test = NavigationManager.BaseUri;
+                        }
+                    </Authorizing>*@
                     <NotAuthorized>
-                        <PageTitle>Authentication</PageTitle>
-                        <p role="alert">You're not authorized to reach this page.</p>
+                        @if (context.User.Identity?.IsAuthenticated != true)
+                        {
+                            
+                            NavigationManager.NavigateTo("/login");
+                        }
+                        else
+                        {
+                            <p role="alert">[App.Razor] You are not authorized to access this resource.</p>
+                        }
                     </NotAuthorized>
                 </AuthorizeRouteView>
                 <FocusOnNavigate RouteData="@routeData" Selector="h1" />

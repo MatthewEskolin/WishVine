@@ -1,34 +1,62 @@
-﻿@inherits LayoutComponentBase
-@inject AppState AppState
+﻿@using System.Globalization
+@using WishVine.Client.Services.Public
+@inherits LayoutComponentBase
+@inject IdentityAuthenticationStateProvider AuthenticationStateProvider
 
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
 
-<MudLayout>
+<AuthorizeView>
+    <Authorized>
+        <MudLayout>
 
-    <MudAppBar Class="ocean">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <LoginStatus></LoginStatus>
-    </MudAppBar>
+            <MudAppBar Class="ocean">
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+                <LoginStatus></LoginStatus>
+            </MudAppBar>
     
     
-    <MudDrawer @bind-Open="@_drawerOpen" Class="MudTable-height-full" Width="300px">
+            <MudDrawer @bind-Open="@_drawerOpen" Class="MudTable-height-full" Width="300px">
         
-        <WishVineMudNav></WishVineMudNav> 
-    </MudDrawer>    
-    <MudMainContent>
+                <WishVineMudNav></WishVineMudNav> 
+            </MudDrawer>    
+            <MudMainContent>
 
-@*        BOX HERE @AppState.Message | @AppState.ShowMessageBox.ToString()
+                @*        BOX HERE @AppState.Message | @AppState.ShowMessageBox.ToString()
 *@        <article class="content px-4">
 
-            @Body
-        </article>
-    </MudMainContent>
-</MudLayout>
+                    Test Auth:@DebugMessage
+
+                    @Body
+                </article>
+            </MudMainContent>
+        </MudLayout>
+        <MudThemeProvider />
+        <MudDialogProvider />
+        <MudSnackbarProvider />
+
+
+    </Authorized>
+    <NotAuthorized>
+        @*Just render the body so that RedirectToLogin works*@
+        @Body
+        You are not authorized to view this page
+    </NotAuthorized>
+
+    
+
+</AuthorizeView>
+
+
 
 @code {
     bool _drawerOpen = true;
+
+    string DebugMessage = "Debug Message";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var auth = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        DebugMessage = "Initialized:" + auth.User.Identity.Name;
+    }
 
     void DrawerToggle()
     {

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WishVine.Server.DomainData;
+using WishVine.Server.Services;
 using WishVine.Shared;
 
 namespace WishVine.Server.Controllers;

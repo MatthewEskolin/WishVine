@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WishVine.Server.AutoMapper;
-using WishVine.Server.Controllers;
 using WishVine.Server.Data;
+using WishVine.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,15 +20,52 @@ builder.Services.AddRazorPages();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 builder.Services.AddTransient<WishListService>();
 
-builder.Services.AddAuthentication(options =>
+builder.Services.AddIdentity<ApplicationUser,IdentityRole<int>>()
+    .AddEntityFrameworkStores<WishVineDbContext>()
+    .AddDefaultTokenProviders();
+
+
+builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+    // Password settings
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+
+    // Lockout settings
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+    options.Lockout.MaxFailedAccessAttempts = 10;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // User settings
+    options.User.RequireUniqueEmail = true;
+});
+
+
+//don't know if we need this!
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Events.OnRedirectToLogin = context =>
     {
-        options.Authority = builder.Configuration["Auth0:Authority"];
-        options.Audience = builder.Configuration["Auth0:ApiIdentifier"];
-    });
+        context.Response.StatusCode = 401;
+        return Task.CompletedTask;
+    };
+});
+
+
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//}).AddJwtBearer(options =>
+//    {
+//        options.Authority = builder.Configuration["Auth0:Authority"];
+//        options.Audience = builder.Configuration["Auth0:ApiIdentifier"];
+//    });
 
 
 var app = builder.Build();

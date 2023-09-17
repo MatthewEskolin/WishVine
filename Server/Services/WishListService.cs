@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WishVine.Server.Data;
 using WishVine.Server.DomainData;
 
-namespace WishVine.Server.Controllers;
+namespace WishVine.Server.Services;
 
 public class WishListService
 {
