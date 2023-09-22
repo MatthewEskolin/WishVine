@@ -18,10 +18,14 @@ namespace WishVine.Client.Services.Public
             this._authorizeApi = identityAPI;
         }
 
-        public async Task Login(LoginModel loginModel)
+        public async Task<LoginResult> Login(LoginModel loginModel)
         {
-            await _authorizeApi.Login(loginModel);
-            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            var result = await _authorizeApi.Login(loginModel);
+            if (result.LoginSuccess)
+            {
+                NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            }
+            return result;
         }
 
         public async Task Register(RegisterParameters registerParameters)

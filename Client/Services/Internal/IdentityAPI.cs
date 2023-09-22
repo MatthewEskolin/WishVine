@@ -14,11 +14,17 @@ namespace WishVine.Client.Services.Internal
             _httpClient = httpClient;
         }
 
-        public async Task Login(LoginModel loginRequest)
+        public async Task<LoginResult> Login(LoginModel loginRequest)
         {
             var result = await _httpClient.PostAsJsonAsync("identity/login", loginRequest);
-            if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
+            if (result.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                return LoginResult.Failure(await result.Content.ReadAsStringAsync());
+            }
+
             result.EnsureSuccessStatusCode();
+
+            return LoginResult.Success();
         }
 
         public async Task Logout()

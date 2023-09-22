@@ -17,4 +17,28 @@ namespace WishVine.Shared
 
         public bool RememberMe { get; set; }
     }
+
+    public class LoginResult
+    {
+        public static LoginResult Failure(string message)
+        {
+            return new LoginResult()
+            {
+                LoginSuccess = false,
+                Error = message
+            };
+        }
+
+        
+        public static LoginResult Success(string message = null!)
+        {
+            return new LoginResult()
+            {
+                LoginSuccess = true,
+                Error = message ?? string.Empty
+            };
+        }
+        public bool LoginSuccess { get; set; }
+        public string Error { get; set; }
+    }
 }

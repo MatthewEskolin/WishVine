@@ -1,5 +1,6 @@
 ﻿@page "/wishlist"
 @page "/"
+@attribute [Authorize]
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 
@@ -51,9 +52,9 @@
 
         }
     </Authorized>
-    <NotAuthorized>
+@*    <NotAuthorized>
         WishLists.razor component requires authorization
-    </NotAuthorized>
+    </NotAuthorized>*@
 </AuthorizeView>
 
 @code {

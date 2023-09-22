@@ -1,0 +1,80 @@
+﻿@page "/login"
+@using WishVine.Client.Services.Public
+@layout LoginLayout
+@inject NavigationManager navigationManager
+@inject IdentityAuthenticationStateProvider authStateProvider
+
+<PageTitle>Login</PageTitle>
+
+<h2 class="text-center">
+    Blazor with Identity Sample
+</h2>
+
+<MudContainer Class="mt-md-5">
+
+    <MudCard>
+                <MudCardHeader>
+                    <h2 class="h2 text-center">Login</h2>
+                </MudCardHeader>
+        <MudCardContent>
+            <div>
+                <span style="color:purple;font-weight:bold;">@LoginMessage</span>
+            </div>
+            <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="loginParameters" OnInvalidSubmit="ClearErrors">
+                <DataAnnotationsValidator/>
+
+                <MudTextField Label="User Name" @bind-Value="loginParameters.UserName" Variant="Variant.Filled"/>
+                <ValidationMessage For="@(() => loginParameters.UserName)"/>
+
+                <MudTextField Label="Password" Type="InputType.Password" @bind-Value="loginParameters.Password" Variant="Variant.Filled"/>
+                <ValidationMessage For="@(() => loginParameters.Password)"/>
+                @*
+                        <div class="form-group mb-3">
+                            <div class="form-check">
+                                <MudCheckBox Label="Remember me" @bind-Checked="@loginParameters.RememberMe" />
+                            </div>
+                        </div>*@
+
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Large" Class="mt-5 d-grid gap-2">Sign in</MudButton>
+
+                <MudLink Href="register">
+                    <h6 class="font-weight-normal text-center">Create account</h6>
+                </MudLink>
+            </EditForm>
+        </MudCardContent>
+            </MudCard>
+</MudContainer>
+
+@code {
+    LoginModel loginParameters { get; set; } = new();
+    string LoginMessage { get; set; } = string.Empty;
+
+    async Task OnSubmit()
+    {
+        try
+        {
+            LoginMessage = string.Empty;
+            LoginResult loginResult = await authStateProvider.Login(loginParameters);
+            if (loginResult.LoginSuccess)
+            {
+                navigationManager.NavigateTo("");
+            }
+            else
+            {
+                LoginMessage = loginResult.Error;
+                StateHasChanged();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+    }
+
+    private void ClearErrors()
+    {
+        LoginMessage = string.Empty;
+    }
+
+}

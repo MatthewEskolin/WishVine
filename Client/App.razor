@@ -12,17 +12,20 @@
                             var test = NavigationManager.BaseUri;
                         }
                     </Authorizing>*@
-                    <NotAuthorized>
-                        @if (context.User.Identity?.IsAuthenticated != true)
-                        {
-                            
-                            NavigationManager.NavigateTo("/login");
-                        }
-                        else
-                        {
-                            <p role="alert">[App.Razor] You are not authorized to access this resource.</p>
-                        }
-                    </NotAuthorized>
+<NotAuthorized>
+    <div>Not Authorized Content in App.Razor <br/></div>
+    @if (context.User.Identity?.IsAuthenticated != true)
+    {
+
+        NavigationManager.NavigateTo("/login");
+    }
+    else
+    {
+        <p role="alert">[App.Razor] You are not authorized to access this resource.</p>
+    }
+
+
+</NotAuthorized>
                 </AuthorizeRouteView>
                 <FocusOnNavigate RouteData="@routeData" Selector="h1" />
             </Found>
