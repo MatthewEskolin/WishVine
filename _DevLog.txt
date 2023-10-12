@@ -12,3 +12,5 @@
 09/02/2023 try upgrading to .net 7 for auth0 from blazor book
 09/07/2023 reading about identity with blazor wasm and how to use cookie authentication. so we don't need an identity server
 09/21/2023 struggling with redirect to login with identity
+09/22/2023 login working, yay! let's work on registration now:
+10/11/2023 checkin
