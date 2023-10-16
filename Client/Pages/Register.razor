@@ -1,5 +1,77 @@
-﻿<h3>Register</h3>
+﻿@page "/register"
+@using WishVine.Client.Services.Public
+@using WishVine.Shared.GeneralLib
+@layout LoginLayout
+@inject NavigationManager NavigationManager
+@inject IdentityAuthenticationStateProvider IdentityAuthenticationStateProvider
+
+<style type="text/css">
+    .mt-3
+    {
+    margin-top: 3rem;
+    }
+
+</style>
+<h3 class="text-center">Register</h3>
+
+<MudContainer>
+    <MudCard>
+        <MudCardHeader>
+            <h1 class="h2 text-center">Create Account</h1>
+        </MudCardHeader>
+        <MudCardContent>     
+            <EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="RegisterParameters">
+            <DataAnnotationsValidator />
+
+                <MudTextField Label="User Name" @bind-Value="RegisterParameters.UserName" Variant="Variant.Filled" />
+                <ValidationMessage For="@(() => RegisterParameters.UserName)" />
+            
+                <MudTextField Label="Password" InputType="InputType.Password" @bind-Value="RegisterParameters.Password" Variant="Variant.Filled" />
+                <ValidationMessage For="@(() => RegisterParameters.Password)" />
+            
+                <MudTextField Label="Confirm Password" InputType="InputType.Password" @bind-Value="RegisterParameters.PasswordConfirm" Variant="Variant.Filled" />
+                <ValidationMessage For="@(() => RegisterParameters.PasswordConfirm)" />
+                <div> <span class="mud-error">@this.RegisterMessage.Value</span></div>
+
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Dark" Size="Size.Large" Class="mt-3">Register</MudButton>
+                <label class="text-danger"></label>
+        </EditForm>
+        </MudCardContent>
+    </MudCard>
+</MudContainer>
+
 
 @code {
 
+    RegisterParameters RegisterParameters { get; set; } = new();
+    StringWrapper RegisterMessage { get; set; } = new();
+    StringWrapper _errorMessage = new();
+
+    protected override Task OnInitializedAsync()
+    {
+        _errorMessage = RegisterMessage;
+        return base.OnInitializedAsync();
+    }
+
+
+    async Task OnSubmit()
+    {
+            RegisterMessage.Value = string.Empty;
+            RegisterResult registerResult = await IdentityAuthenticationStateProvider.Register(RegisterParameters);
+            if (registerResult.RegisterSuccess)
+            {
+                NavigationManager.NavigateTo("");
+            }
+            else
+            {
+                RegisterMessage.Value = registerResult.Error;
+                StateHasChanged();
+            }
+
+    }
+
+    private void ClearErrors()
+    {
+        RegisterMessage.Value = string.Empty;
+    }
 }

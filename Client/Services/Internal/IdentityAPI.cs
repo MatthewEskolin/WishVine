@@ -33,12 +33,17 @@ namespace WishVine.Client.Services.Internal
             result.EnsureSuccessStatusCode();
         }
 
-        public async Task Register(RegisterParameters registerParameters)
+        public async Task<RegisterResult> Register(RegisterParameters registerParameters)
         {
             //var stringContent = new StringContent(JsonSerializer.Serialize(registerParameters), Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsJsonAsync("identiy/Register", registerParameters);
-            if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
+            var result = await _httpClient.PostAsJsonAsync("identity/Register", registerParameters);
+            if (result.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                return RegisterResult.Failure(await result.Content.ReadAsStringAsync());
+            }
             result.EnsureSuccessStatusCode();
+
+            return RegisterResult.Success();
         }
 
         public async Task<UserInfo> GetUserInfo()

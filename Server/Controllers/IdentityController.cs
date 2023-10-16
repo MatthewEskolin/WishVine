@@ -40,7 +40,8 @@ namespace WishVine.Server.Controllers
         {
             var user = new ApplicationUser
             {
-                UserName = parameters.UserName  
+                UserName = parameters.UserName ,
+                Email = parameters.UserName
             };
 
             var result = await _userManager.CreateAsync(user, parameters.Password);
@@ -52,7 +53,7 @@ namespace WishVine.Server.Controllers
             return await LoginAsync(new LoginModel
             {
                 UserName = parameters.UserName,
-                Password = parameters.Password
+                Password = parameters.Password,
             });
         }
 

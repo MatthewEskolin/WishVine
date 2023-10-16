@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MudBlazor;
 
 namespace WishVine.Shared
 {
@@ -28,9 +29,11 @@ namespace WishVine.Shared
                 Error = message
             };
         }
-
-        
-        public static LoginResult Success(string message = null!)
+        public static LoginResult Success()
+        {
+            return Success(string.Empty);
+        }
+        public static LoginResult Success(string message)
         {
             return new LoginResult()
             {
@@ -38,7 +41,10 @@ namespace WishVine.Shared
                 Error = message ?? string.Empty
             };
         }
-        public bool LoginSuccess { get; set; }
-        public string Error { get; set; }
+        public bool LoginSuccess { get; private init; }
+        public string Error { get; private init; } = string.Empty;
     }
+
+
+    
 }

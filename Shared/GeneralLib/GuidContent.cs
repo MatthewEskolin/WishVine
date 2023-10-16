@@ -23,3 +23,18 @@ public class GuidContent : HttpContent
         return true;
     }
 }
+
+public class StringWrapper
+{
+    public StringWrapper(string str)
+    {
+        Value = str;
+    }
+
+    public StringWrapper()
+    {
+        Value = string.Empty;
+    }
+
+    public string Value { get; set; } = string.Empty;
+}

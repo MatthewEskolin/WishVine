@@ -28,10 +28,15 @@ namespace WishVine.Client.Services.Public
             return result;
         }
 
-        public async Task Register(RegisterParameters registerParameters)
+        public async Task<RegisterResult> Register(RegisterParameters registerParameters)
         {
-            await _authorizeApi.Register(registerParameters);
-            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            RegisterResult result = await _authorizeApi.Register(registerParameters);
+            if (result.RegisterSuccess)
+            {
+                NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            }
+
+            return result;
         }
 
         public async Task Logout()
