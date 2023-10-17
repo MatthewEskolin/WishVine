@@ -10,7 +10,7 @@ namespace WishVine.Client.Services.Public
 {
     public class IdentityAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private UserInfo _userInfoCache = null!;
+        private UserInfo? _userInfoCache;
         private readonly IdentityAPI _authorizeApi;
 
         public IdentityAuthenticationStateProvider(IdentityAPI identityAPI)
@@ -42,7 +42,7 @@ namespace WishVine.Client.Services.Public
         public async Task Logout()
         {
             await _authorizeApi.Logout();
-            _userInfoCache = null;
+            _userInfoCache = null!;
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 

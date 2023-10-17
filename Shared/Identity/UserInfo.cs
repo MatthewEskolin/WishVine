@@ -1,8 +1,20 @@
-﻿namespace WishVine.Shared.Identity;
+﻿using System.Security.Claims;
+
+namespace WishVine.Shared.Identity;
 
 public class UserInfo
 {
-    public bool IsAuthenticated { get; set; }
-    public string UserName { get; set; }
-    public Dictionary<string, string> ExposedClaims { get; set; }
+    public UserInfo(ClaimsPrincipal claimsPrincipal)
+    {
+        IsAuthenticated = claimsPrincipal.Identity?.IsAuthenticated ?? false;
+
+        UserName = claimsPrincipal.Identity?.Name ?? string.Empty;
+
+        ExposedClaims = claimsPrincipal.Claims.ToDictionary(c => c.Type, c => c.Value);
+    }
+
+    public bool IsAuthenticated { get; }
+    public string UserName { get; }
+    public Dictionary<string, string> ExposedClaims { get; }
+
 }
