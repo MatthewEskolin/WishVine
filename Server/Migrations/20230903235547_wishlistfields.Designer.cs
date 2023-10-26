@@ -12,7 +12,9 @@ namespace WishVine.Server.Migrations
 {
     [DbContext(typeof(WishVineDbContext))]
     [Migration("20230903235547_wishlistfields")]
+#pragma warning disable CS8981
     partial class wishlistfields
+#pragma warning restore CS8981
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -12,7 +12,9 @@ namespace WishVine.Server.Migrations
 {
     [DbContext(typeof(WishVineDbContext))]
     [Migration("20230909164532_identity-initial")]
+#pragma warning disable CS8981
     partial class identityinitial
+#pragma warning restore CS8981
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

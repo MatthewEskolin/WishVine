@@ -22,22 +22,21 @@ namespace WishVine.Shared
 
     public class RegisterResult
     {
+        private RegisterResult(bool success,string message)
+        {
+            RegisterSuccess = success;
+            Error = message ?? string.Empty;
+        }
+
+
         public static RegisterResult Failure(string message)
         {
-            return new RegisterResult()
-            {
-                RegisterSuccess = false,
-                Error = message
-            };
+            return new RegisterResult(false, message);
         }
 
         public static RegisterResult Success(string message = null!)
         {
-            return new RegisterResult()
-            {
-                RegisterSuccess = true,
-                Error = message ?? string.Empty
-            };
+            return new RegisterResult(true, message);
         }
         public bool RegisterSuccess { get; set; }
         public string Error { get; set; }

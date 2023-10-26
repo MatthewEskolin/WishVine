@@ -33,6 +33,7 @@ namespace WishVine.Client.Services.Public
             RegisterResult result = await _authorizeApi.Register(registerParameters);
             if (result.RegisterSuccess)
             {
+
                 NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
             }
 

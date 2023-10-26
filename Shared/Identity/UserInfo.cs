@@ -13,8 +13,14 @@ public class UserInfo
         ExposedClaims = claimsPrincipal.Claims.ToDictionary(c => c.Type, c => c.Value);
     }
 
+    public UserInfo()
+    {
+
+    }
+
+
     public bool IsAuthenticated { get; }
-    public string UserName { get; }
-    public Dictionary<string, string> ExposedClaims { get; }
+    public string UserName { get; } = string.Empty;
+    public Dictionary<string, string> ExposedClaims { get; } = new();
 
 }

@@ -18,12 +18,12 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddSingleton<WishListState>();
 builder.Services.AddSingleton<AppState>();
 
-builder.Services.AddOidcAuthentication(options =>
-{
-    builder.Configuration.Bind("Auth0", options.ProviderOptions);
-    options.ProviderOptions.ResponseType = "code";
-    options.UserOptions.NameClaim = ClaimTypes.Email;
-});
+//builder.Services.AddOidcAuthentication(options =>
+//{
+//    builder.Configuration.Bind("Auth0", options.ProviderOptions);
+//    options.ProviderOptions.ResponseType = "code";
+//    options.UserOptions.NameClaim = ClaimTypes.Email;
+//});
 
 builder.Services.AddMudServices();
 builder.Services.AddAuthorizationCore();

@@ -51,13 +51,11 @@
 
     async Task OnSubmit()
     {
-        try
-        {
             LoginMessage = string.Empty;
             LoginResult loginResult = await authStateProvider.Login(loginParameters);
             if (loginResult.LoginSuccess)
             {
-                navigationManager.NavigateTo("");
+            navigationManager.NavigateTo("/wishlist");
             }
             else
             {
@@ -65,11 +63,6 @@
                 StateHasChanged();
             }
 
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
     }
 
     private void ClearErrors()

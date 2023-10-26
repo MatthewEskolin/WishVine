@@ -44,16 +44,15 @@ namespace WishVine.Server.Controllers
                 Email = parameters.UserName
             };
 
-            var result = await _userManager.CreateAsync(user, parameters.Password);
+            var result = await _userManager.CreateAsync(user, parameters.Password!);
 
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
 
             //sign the user in after successful registration
-
             return await LoginAsync(new LoginModel
             {
-                UserName = parameters.UserName,
-                Password = parameters.Password,
+                UserName = parameters.UserName!,
+                Password = parameters.Password!,
             });
         }
 
@@ -61,24 +60,9 @@ namespace WishVine.Server.Controllers
         public UserInfo UserInfo()
         {
             //var user = await _userManager.GetUserAsync(HttpContext.User);
-            var info = BuildUserInfo();
+            var info = new UserInfo(this.User);
             return info;
         }
-
-
-        private UserInfo BuildUserInfo()
-        {
-            return new UserInfo
-            {
-                IsAuthenticated = User.Identity.IsAuthenticated,
-                UserName = User.Identity.Name,
-                ExposedClaims = User.Claims
-                    //Optionally: filter the claims you want to expose to the client
-                    //.Where(c => c.Type == "test-claim")
-                    .ToDictionary(c => c.Type, c => c.Value)
-            };
-        }
-
 
     }
 

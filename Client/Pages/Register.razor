@@ -4,6 +4,7 @@
 @layout LoginLayout
 @inject NavigationManager NavigationManager
 @inject IdentityAuthenticationStateProvider IdentityAuthenticationStateProvider
+@inject AppState AppState
 
 <style type="text/css">
     .mt-3
@@ -60,7 +61,8 @@
             RegisterResult registerResult = await IdentityAuthenticationStateProvider.Register(RegisterParameters);
             if (registerResult.RegisterSuccess)
             {
-                NavigationManager.NavigateTo("");
+                AppState.SetMessage("Registration Successful! Welcome to WishVine", Severity.Success);
+                NavigationManager.NavigateTo("/");
             }
             else
             {
